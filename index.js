@@ -3,7 +3,7 @@ const app = express();
 
 app.get('/', (req, res) => {
     res.send({
-        hi: 'there'
+        test: 'This is a test for code redeployment'
     });
 });
 
