@@ -7,7 +7,6 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
 const mongoose = require('mongoose');
-authRoutes(app);
 
 app.use(
     cookieSession({
@@ -17,6 +16,8 @@ app.use(
 )
 app.use(passport.initialize());
 app.use(passport.session());
+authRoutes(app);
+
 
 mongoose.connect(keys.mongoURI, {useNewUrlParser: true});
 
