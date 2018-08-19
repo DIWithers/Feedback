@@ -23,6 +23,15 @@ app.use(passport.session());
 authRoutes(app);
 billingRoutes(app);
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+    //and if Express still can't find the path, use index.html
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    })
+}
+
 mongoose.connect(keys.mongoURI, {useNewUrlParser: true});
 
 const PORT = process.env.PORT || 5000;
