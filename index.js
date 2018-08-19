@@ -23,8 +23,6 @@ app.use(passport.session());
 authRoutes(app);
 billingRoutes(app);
 
-
-
 mongoose.connect(keys.mongoURI, {useNewUrlParser: true});
 
 const PORT = process.env.PORT || 5000;
