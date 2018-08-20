@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-//alt, extract out Schema prop from mongoose-> const { Schema } = mongoose;
+const { Schema } = mongoose;
+const RecipientSchema = require('./Recipient');
 const surveySchema = new Schema({
     title: String,
     body: String,
