@@ -13,14 +13,17 @@ const FIELDS = [
 class SurveyForm extends Component {
     renderFields() {
         return (
-            FIELDS.map(field => 
-                <Field
-                    label= {field.label}
-                    type= {field.type}
-                    name= {field.name} 
-                    component= {SurveyField}
-                />
-            )
+                FIELDS.map(field => 
+                    <div>
+                        <Field
+                            label= {field.label}
+                            type= {field.type}
+                            name= {field.name} 
+                            component= {SurveyField}
+                        />
+                    </div>
+
+                )
         )
     }
     render() {
