@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 import SurveyField from './SurveyField';
 
 const FIELDS = [
-    {label: "Survey Title", type: "text", name: "title"},
-    {label: "Survey Line", type: "text", name: "subject"},
-    {label: "Email Body", type: "text", name: "body"},
-    {label: "Recipient List", name: "emails"}
+    {label: "Survey Title", type: "text", name: "title", required: true},
+    {label: "Survey Line", type: "text", name: "subject", required: true},
+    {label: "Email Body", type: "text", name: "body", required: true},
+    {label: "Recipient List", name: "emails", required: true}
 ]
 
 class SurveyForm extends Component {
@@ -48,8 +48,16 @@ class SurveyForm extends Component {
 
 function validate(values) {
     const errors = {};
-    if (!values.title) errors.title = "You must provide a title.";
+    FIELDS.forEach(({ name, required }) => {
+        if (required && !values[name]) {
+            errors[name] = `${capitalCase(name)} must be provided.`;
+        }
+    });
     return errors;
+}
+
+function capitalCase(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export default reduxForm({
