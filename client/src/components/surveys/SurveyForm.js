@@ -3,6 +3,7 @@ import React,  { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import SurveyField from './SurveyField';
+import validateEmails from '../../utils/validateEmails';
 
 const FIELDS = [
     {label: "Survey Title", type: "text", name: "title", required: true},
@@ -48,6 +49,9 @@ class SurveyForm extends Component {
 
 function validate(values) {
     const errors = {};
+
+    errors.emails = validateEmails(values.emails || "");
+
     FIELDS.forEach(({ name, required }) => {
         if (required && !values[name]) {
             errors[name] = `${capitalCase(name)} must be provided.`;
