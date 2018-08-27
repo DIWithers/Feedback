@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import formFields from './formFields';
 
 const SurveyFormReview = ({ onCancel, formValues }) => {
-    const reviewFields = formFields.map( field => {
+    const reviewFields = formFields.map( ({ name, label }) => {
         return (
-            <div key={field.name}>
-                <label>{ field.label }</label>
-                <div>{ formValues[field.name] }</div>
+            <div key={name}>
+                <label>{label}</label>
+                <div>{formValues[name]}</div>
             </div>
         );
     });
