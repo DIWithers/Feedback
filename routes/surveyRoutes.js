@@ -37,11 +37,11 @@ module.exports = app => {
 
     });
     app.post('/api/surveys/webhooks', (req, res) => {
-        const events = req.body.map(event => {
-            const pathName = new URL(event.url).pathname;
+        const events = req.body.map( ({ email, url }) => {
+            const pathName = new URL(url).pathname;
             const pathVariableExtractor = new Path('/api/surveys/:surveyId/:choice');
             const match = pathVariableExtractor.test(pathName);
-            if (match) return { email: event.email, surveyId: match.surveyId, choice: match.choice };
+            if (match) return { email, surveyId: match.surveyId, choice: match.choice };
         });
     });
 };
