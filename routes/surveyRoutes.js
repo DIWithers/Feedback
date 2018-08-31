@@ -37,11 +37,30 @@ module.exports = app => {
 
     });
     app.post('/api/surveys/webhooks', (req, res) => {
-        const events = req.body.map( ({ email, url }) => {
-            const pathName = new URL(url).pathname;
-            const pathVariableExtractor = new Path('/api/surveys/:surveyId/:choice');
-            const match = pathVariableExtractor.test(pathName);
-            if (match) return { email, surveyId: match.surveyId, choice: match.choice };
-        });
+        const uniqueEvents = req.body
+            .filter(event => event.email && event.url && event.event === 'click')
+            .map( ({ email, url }) => {
+                const pathName = new URL(url).pathname;
+                const pathVariableExtractor = new Path('/api/surveys/:surveyId/:choice');
+                const match = pathVariableExtractor.test(pathName);
+                if (match) return { email, surveyId: match.surveyId, choice: match.choice };
+                })
+            .sort((e1, e2) => {
+                const e1_sort_string = e1.email + e1.surveyId + e1.choice;
+                const e2_sort_string = e2.email + e2.surveyId + e2.choice;
+            
+                if (e1_sort_string < e2_sort_string) {
+                return -1
+                }
+                return 1;
+            })
+            .reduce((acc, curr) => {
+                if (acc.length === 0 || acc[acc.length-1] !== curr) {
+                  acc.push(curr);
+                }
+                return acc;       
+              }, []);
+        res.send({});
+            // Can I use ES6 Set here?
     });
 };
