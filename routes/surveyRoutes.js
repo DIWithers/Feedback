@@ -45,7 +45,21 @@ module.exports = app => {
 };
 
 function updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtractor) {
-    req.body
+    getUniqueEvents(req, pathVariableExtractor)
+        .forEach(({ surveyId, email, choice }) => {
+            Survey.updateOne({
+                _id: surveyId,
+                recipients: {
+                    $elemMatch: { email: email, responded: false }
+                }
+            }, {
+                    $inc: { [choice]: 1 },
+                    $set: { 'recipients.$.responded': true }
+            }).exec();
+        })
+}
+function getUniqueEvents(req, pathVariableExtractor) {
+    return req.body
         .filter(event => event.email && event.url && event.event === 'click')
         .map(({ email, url }) => {
             const match = pathVariableExtractor.test(new URL(url).pathname);
@@ -65,16 +79,5 @@ function updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtr
                 acc.push(curr);
             }
             return acc;
-        }, [])
-        .forEach(({ surveyId, email, choice }) => {
-            Survey.updateOne({
-                _id: surveyId,
-                recipients: {
-                    $elemMatch: { email: email, responded: false }
-                }
-            }, {
-                    $inc: { [choice]: 1 },
-                    $set: { 'recipients.$.responded': true }
-            }).exec();
-        })
+        }, []);
 }
