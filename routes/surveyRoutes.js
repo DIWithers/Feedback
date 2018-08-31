@@ -47,15 +47,19 @@ module.exports = app => {
 function updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtractor) {
     getUniqueEvents(req, pathVariableExtractor)
         .forEach(({ surveyId, email, choice }) => {
-            Survey.updateOne({
-                _id: surveyId,
-                recipients: {
-                    $elemMatch: { email: email, responded: false }
-                }
-            }, {
+            Survey.updateOne(
+                {
+                    _id: surveyId,
+                    recipients: {
+                        $elemMatch: { email: email, responded: false }
+                    }
+                },
+                {
                     $inc: { [choice]: 1 },
-                    $set: { 'recipients.$.responded': true }
-            }).exec();
+                    $set: { 'recipients.$.responded': true },
+                    lastResponded: new Date()
+                }
+            ).exec();
         })
 }
 function getUniqueEvents(req, pathVariableExtractor) {
