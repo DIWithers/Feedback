@@ -66,7 +66,7 @@ function updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtr
             }
             return acc;
         }, [])
-        .array.forEach(({ surveyId, email, choice }) => {
+        .forEach(({ surveyId, email, choice }) => {
             Survey.updateOne({
                 _id: surveyId,
                 recipients: {
