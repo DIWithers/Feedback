@@ -45,7 +45,7 @@ module.exports = app => {
         // const pathVariableExtractor = new Path('/api/surveys/:surveyId/:choice');
         // updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtractor);
         console.log(req.body);
-        res.send({});
+        res.status(200).send({});
             // Can I use ES6 Set here?
     });
 };
