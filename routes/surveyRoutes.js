@@ -42,9 +42,8 @@ module.exports = app => {
 
     });
     app.post('/api/surveys/webhooks', (req, res) => {
-        // const pathVariableExtractor = new Path('/api/surveys/:surveyId/:choice');
-        // updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtractor);
-        console.log(req.body);
+        const pathVariableExtractor = new Path('/api/surveys/:surveyId/:choice');
+        updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtractor);
         res.send({});
             // Can I use ES6 Set here?
     });
