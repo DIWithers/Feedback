@@ -42,8 +42,8 @@ module.exports = app => {
 
     });
     app.post('/api/surveys/webhooks', (req, res) => {
-        const pathVariableExtractor = new Path('/api/surveys/:surveyId/:choice');
-        updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtractor);
+        // const pathVariableExtractor = new Path('/api/surveys/:surveyId/:choice');
+        // updateDBWithSelectedChoiceForFirstTimeRespondents(req, pathVariableExtractor);
         console.log(req.body);
         res.status(200).send('OK');
     });
